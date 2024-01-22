@@ -1,0 +1,95 @@
+<section class="todoapp">
+  <header class="header">
+    <div class="container">
+      <h1>My Day</h1>
+      <p>All my tasks in one place</p>
+      <input
+        class="new-todo"
+        placeholder="Type new todo"
+        autofocus
+        type="text"
+        [formControl]="taskInput"
+        (keyup.enter)="changeHandler()"
+      />
+    </div>
+  </header>
+  <div class="container todoapp-wrapper">
+    <!-- This section should be hidden by default and shown when there are todos -->
+    <section class="main">
+      <ul class="todo-list">
+        <li
+          [ngClass]="{ completed: todo.isCompleted }"
+          [class.editing]="todo.editing"
+          (dblclick)="updateTaskEditingMode(i)"
+          *ngFor="let todo of taskByFilter(); let i = index"
+        >
+          <div class="view">
+            <input
+
+              class="toggle"
+              type="checkbox"
+              [checked]="todo.isCompleted"
+              (change)="updateTask(i)"
+            />
+            <label> {{ i + 1 }}. {{ todo.title }}</label>
+            <button class="destroy" (click)="deleteTodo(i)"></button>
+          </div>
+          <input class="edit" [value]="todo.title" (keydown.enter)="updateTaskText(i, $event)"/>
+        </li>
+        <!-- <li>
+          <div class="view">
+            <input class="toggle" type="checkbox" />
+            <label>Buy a unicorn</label>
+            <button class="destroy"></button>
+          </div>
+          <input class="edit" value="Buy a unicorn" />
+        </li>
+        <li class="editing">
+          <div class="view">
+            <input class="toggle" type="checkbox" />
+            <label>Make dishes</label>
+            <button class="destroy"></button>
+          </div>
+          <input class="edit" value="Make dishes" />
+        </li> -->
+      </ul>
+    </section>
+    <!-- This footer should be hidden by default and shown when there are todos -->
+    <footer class="footer" >
+      <!-- This should be `0 items left` by default -->
+      <span class="todo-count"
+        ><strong
+          >{{ taskByFilter().length }} tasks
+          {{
+            filter() === "completed"
+              ? "completed"
+              : filter() !== "completed" && filter() !== "all"
+              ? "pending"
+              : ""
+          }}</strong
+        >
+      </span>
+
+      <!-- Signals
+      <span class="todo-count"><strong>{{task()}}</strong> {{task().length  === 1 ? 'Item' : 'Items'}}</span> -->
+      <!-- Remove this if you don't implement routing -->
+      <ul class="filters">
+        <li>
+          <a (click)="filterTasks('all')" [class.selected]="filter() === 'all'">All</a>
+        </li>
+        <li>
+          <a (click)="filterTasks('pending')" [class.selected]="filter() === 'pending'"
+            >Pending</a
+          >
+        </li>
+        <li>
+          <a (click)="filterTasks('completed')" [class.selected]="filter() === 'completed'"
+            >Completed</a
+          >
+        </li>
+      </ul>
+      <!-- Hidden if no completed items are left ↓ -->
+      <button class="clear-completed" (click)="onClearCompleted()">Clear completed</button>
+    </footer>
+  </div>
+</section>
