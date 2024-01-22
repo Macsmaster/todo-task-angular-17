@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Injector, OnInit, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, OnInit, WritableSignal, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Observable, of, tap, map, take } from 'rxjs';
@@ -34,6 +34,8 @@ export class HomeComponent implements OnInit {
     nonNullable: true,
     validators: [Validators.required],
   });
+
+  name: WritableSignal<string> = signal('Jhon')
 
   filter = signal('all');
   taskByFilter = computed(() => {
